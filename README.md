@@ -2,42 +2,42 @@
 
 > **Python owns the workflow. GROMACS owns the numerical simulation.**
 
-`mdflow` 从一份 YAML 参数扫描配置出发，基于一个固定的 GROMACS 基准工程，为每组（温度、压力、Replica）自动生成一个**完整、独立、可复现**的 GROMACS 模拟任务包：各阶段 MDP、结构与拓扑依赖、Bash 运行脚本、随机种子和元数据。
+Starting from a YAML parameter-scan configuration and a fixed GROMACS base project, `mdflow` generates one **complete, self-contained, reproducible** GROMACS job package per (temperature, pressure, replica) combination: per-stage MDP files, structure and topology dependencies, a Bash run script, a random seed, and metadata.
 
-V0.1 **只生成并静态验证**任务包，不执行模拟、不调度 HPC、不做分析。
+V0.1 **only generates and statically validates** job packages. It does not run simulations, schedule HPC jobs, or analyze results.
 
-## 安装
+## Installation
 
-需要 Python ≥ 3.11。
+Requires Python ≥ 3.11.
 
 ```bash
 cd md-automation
-pip install -e .            # 依赖：PyYAML、pydantic>=2、Jinja2
-pip install -e ".[dev]"     # 另含 pytest
+pip install -e .            # dependencies: PyYAML, pydantic>=2, Jinja2
+pip install -e ".[dev]"     # also installs pytest
 ```
 
-运行生成的任务包需要 GROMACS ≥ 2021（`mdflow` 本身不需要 GROMACS）。
+Running the generated job packages requires GROMACS ≥ 2021 (`mdflow` itself does not need GROMACS).
 
-## 快速开始
+## Quick start
 
 ```bash
-mdflow plan     configs/scan.example.yaml   # 校验配置，列出 36 个任务，不写文件
-mdflow build    configs/scan.example.yaml   # 生成 generated_jobs/
-mdflow validate configs/scan.example.yaml   # 校验配置/基准工程/模板/依赖；若已构建则复核输出
+mdflow plan     configs/scan.example.yaml   # validate the config and list the 36 jobs; writes nothing
+mdflow build    configs/scan.example.yaml   # generate generated_jobs/
+mdflow validate configs/scan.example.yaml   # check config/base project/templates/dependencies; re-check an existing build
 ```
 
-运行某一个任务（需在装有 GROMACS 的机器上）：
+Running a single job (on a machine with GROMACS):
 
 ```bash
 bash generated_jobs/job_0001/run.sh
 GMX=gmx_mpi MDRUN_ARGS="-ntomp 8 -pin on" bash generated_jobs/job_0001/run.sh
 ```
 
-## 配置示例
+## Example configuration
 
 ```yaml
 project: water_scan_001
-base_project: "../examples/base_gromacs"   # 相对路径以本 YAML 文件所在目录为基准
+base_project: "../examples/base_gromacs"   # relative paths are resolved against this YAML file's directory
 scan:
   temperature_K: [280, 300, 320, 340]
   pressure_bar: [1, 10, 50]
@@ -52,38 +52,38 @@ output:
   directory: "../generated_jobs"
 ```
 
-4 × 3 × 3 = 36 个任务。全部字段见 [`docs/CONFIGURATION.md`](docs/CONFIGURATION.md)。
+4 × 3 × 3 = 36 jobs. All fields are described in [`docs/CONFIGURATION.md`](docs/CONFIGURATION.md).
 
-## 输出
+## Output
 
 ```text
 generated_jobs/
-├── manifest.csv          # 每行一个任务
-├── build_report.json     # 构建时间、主机、配置哈希等（唯一的非确定性文件）
+├── manifest.csv          # one row per job
+├── build_report.json     # build time, host, config hash, ... (the only non-deterministic file)
 ├── job_0001/
-│   ├── conf.gro  topol.top  oplsaa.ff/   # 从基准工程逐字节复制（仅拓扑实际 #include 的文件）
+│   ├── conf.gro  topol.top  oplsaa.ff/   # byte-for-byte copies from the base project (only files the topology actually #includes)
 │   ├── em.mdp  nvt.mdp  npt.mdp  production.mdp
 │   ├── run.sh            # EM → NVT → NPT → Production
-│   └── job.json          # 参数、种子、步数、文件 SHA-256、验证状态
+│   └── job.json          # parameters, seed, step counts, file SHA-256s, validation status
 └── ...
 ```
 
-相同输入重复构建时，除 `build_report.json` 外所有文件逐字节一致。
+Rebuilding from the same input produces byte-identical files, except `build_report.json`.
 
-## 文档
+## Documentation
 
-| 文档 | 内容 |
+| Document | Contents |
 |---|---|
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 四层架构、模块边界、数据流、扩展原则 |
-| [docs/CONFIGURATION.md](docs/CONFIGURATION.md) | YAML 字段、单位、限制、错误代码 |
-| [docs/GROMACS_ADAPTER.md](docs/GROMACS_ADAPTER.md) | 参数映射、MDP 模板机制、运行脚本规则、Replica 独立性 |
-| [docs/EXAMPLE_SOURCE.md](docs/EXAMPLE_SOURCE.md) | 示例工程来源、许可证、校验和、修改记录 |
-| [docs/VALIDATION.md](docs/VALIDATION.md) | 测试方法、实际结果、未验证事项 |
-| [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | 开发环境、项目结构、测试、扩展建议 |
-| [CHANGELOG.md](CHANGELOG.md) | V0.1 内容与已知限制 |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Four-layer architecture, module boundaries, data flow, extension principles |
+| [docs/CONFIGURATION.md](docs/CONFIGURATION.md) | YAML fields, units, limits, error codes |
+| [docs/GROMACS_ADAPTER.md](docs/GROMACS_ADAPTER.md) | Parameter mapping, MDP template mechanism, run-script rules, replica independence |
+| [docs/EXAMPLE_SOURCE.md](docs/EXAMPLE_SOURCE.md) | Example project provenance, license, checksums, modification record |
+| [docs/VALIDATION.md](docs/VALIDATION.md) | Test method, actual results, what was not validated |
+| [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | Development environment, project layout, tests, extension suggestions |
+| [CHANGELOG.md](CHANGELOG.md) | V0.1 contents and known limitations |
 
-## 重要声明
+## Important notes
 
-- `STATIC_VALIDATED` 表示任务包**文件完整且内部一致**，**不**表示 GROMACS `grompp` 已接受、也不表示物理模型正确。
-- V0.1 开发环境中**没有 GROMACS**，生成的任务包**尚未**经 `grompp` 或 `mdrun` 实际验证，详见 [docs/VALIDATION.md](docs/VALIDATION.md)。
-- 示例扫描条件仅用于测试 Script Builder，不是经过验证的科研条件。
+- `STATIC_VALIDATED` means a job package is **complete and internally consistent**. It does **not** mean GROMACS `grompp` has accepted it, nor that the physical model is correct.
+- The V0.1 development environment had **no GROMACS**. The generated job packages have **not** been validated with `grompp` or `mdrun`; see [docs/VALIDATION.md](docs/VALIDATION.md).
+- The example scan conditions exist to test the Script Builder; they are not validated research conditions.

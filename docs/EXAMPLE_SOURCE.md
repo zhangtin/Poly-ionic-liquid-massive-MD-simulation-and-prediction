@@ -1,36 +1,36 @@
-# 示例工程来源说明
+# Example Project Provenance
 
-## 1. 选型与搜索过程
+## 1. Selection and search
 
-工作指令要求优先使用 GROMACS 官方来源的简单液态水体系。检索与取舍：
+The work order asks for a simple liquid-water system, preferably from official GROMACS sources. Candidates considered:
 
-| 候选 | 结论 |
+| Candidate | Decision |
 |---|---|
-| GROMACS 发行版自带的 `share/top/spc216.gro`（216 个已平衡 SPC 水分子）及 `oplsaa.ff` 力场 | **采用**。官方来源，随 GROMACS 以 LGPL-2.1 分发，可再分发；`gmx solvate` 的默认溶剂盒即此文件 |
-| 公开教程（如 J. Lemkul 的 GROMACS Tutorials）中的 MDP 文件 | **未采用**。未找到明确的再分发许可证 |
-| 完整的官方“液态水 EM/NVT/NPT/MD”示例工程 | 未找到附带全部 MDP 的官方现成工程 |
+| `share/top/spc216.gro` shipped with the GROMACS distribution (216 pre-equilibrated SPC waters) and the `oplsaa.ff` force field | **Adopted.** Official source, distributed with GROMACS under LGPL-2.1, redistributable; this is the default solvent box used by `gmx solvate` |
+| MDP files from public tutorials (e.g. J. Lemkul's GROMACS Tutorials) | **Not adopted.** No explicit redistribution license could be found |
+| A complete official "liquid water EM/NVT/NPT/MD" example project | No ready-made official project including all MDP files was found |
 
-因此按工作指令 §4.2 的备选方案：**结构与力场取自官方发行版（未修改），拓扑与 MDP 模板由本项目自行编写**，并在下文逐文件标明来源。本工程不是 GROMACS 官方示例工程。
+Therefore, following the fallback in §4.2 of the work order: **structure and force field are taken unmodified from the official distribution; the topology and MDP templates were written by this project**, and the origin of each file is stated below. This project is not an official GROMACS example project.
 
-## 2. 上游来源
+## 2. Upstream source
 
-- 项目：GROMACS（https://www.gromacs.org）
-- 仓库：https://github.com/gromacs/gromacs（官方 GitHub 镜像，主仓库为 https://gitlab.com/gromacs/gromacs）
-- 版本：tag `v2025.5`，commit `70126eecad7830d2062cdc7b0c1b180b92c98c2a`
-- 获取日期：2026-11-03
-- 获取方式：`git clone --depth 1 --branch v2025.5`；可用 `examples/base_gromacs/tools/fetch_upstream.sh` 以稀疏检出方式重新获取并校验（该脚本已在开发环境中实际运行，6 个文件校验全部 OK）。
+- Project: GROMACS (https://www.gromacs.org)
+- Repository: https://github.com/gromacs/gromacs (official GitHub mirror; the primary repository is https://gitlab.com/gromacs/gromacs)
+- Version: tag `v2025.5`, commit `70126eecad7830d2062cdc7b0c1b180b92c98c2a`
+- Retrieved: 2026-11-03
+- Method: `git clone --depth 1 --branch v2025.5`. `examples/base_gromacs/tools/fetch_upstream.sh` re-fetches the files with a sparse checkout and verifies them (this script was actually run in the development environment; all 6 files verified OK).
 
-## 3. 许可证
+## 3. License
 
-GROMACS 以 **GNU LGPL v2.1（或更高版本）** 发布，`share/top` 下的力场与结构数据随之分发。本项目在 `examples/base_gromacs/LICENSES/GROMACS-COPYING-LGPL-2.1.txt` 中附上未经修改的 `COPYING` 原文。被复制的文件均未修改，保留原有文件头注释（包括 OPLS-AA 的文献引用）。
+GROMACS is released under the **GNU LGPL v2.1 (or any later version)**, and the force-field and structure data under `share/top` are distributed with it. This project includes the unmodified `COPYING` text at `examples/base_gromacs/LICENSES/GROMACS-COPYING-LGPL-2.1.txt`. All copied files are unmodified and keep their original header comments (including the OPLS-AA literature references).
 
-使用者在发表结果时应按惯例引用 GROMACS、OPLS-AA（见 `oplsaa.ff/forcefield.itp` 文件头）以及 SPC/E 水模型（H. J. C. Berendsen, J. R. Grigera, T. P. Straatsma, *J. Phys. Chem.* **91**, 6269 (1987)）。
+When publishing results, users should cite, as is customary, GROMACS, OPLS-AA (see the header of `oplsaa.ff/forcefield.itp`), and the SPC/E water model (H. J. C. Berendsen, J. R. Grigera, T. P. Straatsma, *J. Phys. Chem.* **91**, 6269 (1987)).
 
-## 4. 逐文件来源与校验和
+## 4. Per-file provenance and checksums
 
-### 4.1 上游文件（逐字节复制，未修改）
+### 4.1 Upstream files (byte-for-byte copies, unmodified)
 
-| 本项目路径 | 上游路径 | SHA-256 |
+| Path in this project | Upstream path | SHA-256 |
 |---|---|---|
 | `oplsaa.ff/forcefield.itp` | `share/top/oplsaa.ff/forcefield.itp` | `6eb8f0d08684e1ac6f525bb323eae75ed197b2980ddfde975a24ca1a8c931d06` |
 | `oplsaa.ff/ffnonbonded.itp` | `share/top/oplsaa.ff/ffnonbonded.itp` | `fdf072dac9900c039b58e21323ce621b2112dc86c46a4b5e49e1398ae5d3b9f0` |
@@ -39,31 +39,31 @@ GROMACS 以 **GNU LGPL v2.1（或更高版本）** 发布，`share/top` 下的�
 | `upstream/spc216.gro` | `share/top/spc216.gro` | `dcb2c65552058a5083fddc5a4bb3187b1eac6c46e3acf038643ec2ec9f147620` |
 | `LICENSES/GROMACS-COPYING-LGPL-2.1.txt` | `COPYING` | `b634ab5640e258563c536e658cad87080553df6f34f62269a21d554844e58bfe` |
 
-只复制了拓扑实际需要的 4 个力场文件，而不是整个 `oplsaa.ff` 目录（后者含氨基酸数据库等本体系不需要的文件）。
+Only the 4 force-field files the topology actually needs were copied, not the whole `oplsaa.ff` directory (which also contains amino-acid databases and other files this system does not need).
 
-### 4.2 本项目创建或派生的文件
+### 4.2 Files created or derived by this project
 
-| 文件 | 说明 |
+| File | Description |
 |---|---|
-| `conf.gro` | **派生**。`tools/make_conf.py` 将 `spc216.gro`（1.86206 nm 盒）沿三个方向平移复制 2×2×2，得到 1728 个水分子、3.72412 nm 立方盒；坐标仅做整盒平移，未删除或扰动任何分子，残基/原子重新编号，标题行注明来源。原因：单个 216 水盒边长小于 2×1.0 nm 截断半径，不能直接使用。生成后检查：周期性最小 O–O 距离 0.251 nm，密度 1.0008 g/cm³（按 18.015 g/mol 计算）。 |
-| `topol.top` | 新写。`#include` OPLS-AA 与 `spce.itp`，`SOL 1728`。 |
-| `mdp/em.mdp.j2`, `nvt.mdp.j2`, `npt.mdp.j2`, `production.mdp.j2` | 新写的 Jinja2 模板，协议见 `docs/GROMACS_ADAPTER.md` §3。参数为常见做法，依据 GROMACS 参考手册的 mdp 选项说明选取，**未经 grompp/mdrun 验证**。 |
-| `base_project.yaml` | mdflow 基准工程描述文件，含项目自定的适用范围（273.15–373.15 K、1–1000 bar、≤ 2 fs）。 |
-| `tools/make_conf.py`, `tools/fetch_upstream.sh` | 辅助脚本。 |
-| `SHA256SUMS`, `README.md` | 完整性参考与说明。 |
+| `conf.gro` | **Derived.** `tools/make_conf.py` tiles `spc216.gro` (1.86206 nm box) 2×2×2 by translation along the three axes, giving 1728 water molecules in a 3.72412 nm cubic box. Coordinates are only shifted by whole box lengths; no molecule is removed or perturbed; residues/atoms are renumbered; the title line records the origin. Reason: a single 216-water box is smaller than twice the 1.0 nm cut-off and cannot be used directly. Post-generation checks: minimum periodic O–O distance 0.251 nm, density 1.0008 g/cm³ (using 18.015 g/mol). |
+| `topol.top` | Newly written. `#include`s OPLS-AA and `spce.itp`; `SOL 1728`. |
+| `mdp/em.mdp.j2`, `nvt.mdp.j2`, `npt.mdp.j2`, `production.mdp.j2` | Newly written Jinja2 templates; the protocol is described in `docs/GROMACS_ADAPTER.md` §3. Parameters follow common practice and were chosen according to the mdp option descriptions in the GROMACS reference manual; **not validated with grompp/mdrun**. |
+| `base_project.yaml` | mdflow base-project descriptor, including the project-chosen applicability range (273.15–373.15 K, 1–1000 bar, ≤ 2 fs). |
+| `tools/make_conf.py`, `tools/fetch_upstream.sh` | Helper scripts. |
+| `SHA256SUMS`, `README.md` | Integrity reference and description. |
 
-说明：`spc216.gro` 本身是 SPC 模型下平衡的构型；SPC/E 与 SPC 几何相同（O–H 0.1 nm，H–O–H 109.47°），只是电荷不同，因此可作为 SPC/E 的起始构型，但需要经过 EM 与平衡阶段。
+Note: `spc216.gro` itself is a configuration equilibrated with the SPC model. SPC/E has the same geometry as SPC (O–H 0.1 nm, H–O–H 109.47°) and differs only in its charges, so it is usable as a starting configuration for SPC/E, but it must go through EM and equilibration.
 
-## 5. GROMACS 版本兼容性
+## 5. GROMACS version compatibility
 
-- 力场与结构文件取自 GROMACS 2025.5，格式在 2018 年以来的版本中是稳定的。
-- MDP 使用 C-rescale 压浴（GROMACS 2021 引入），因此 `base_project.yaml` 规定 `min_version: "2021"`，`run.sh` 在运行时检查主版本号。
-- **未在任何 GROMACS 版本上实际运行验证**（开发环境无 GROMACS，见 VALIDATION.md）。
+- The force-field and structure files come from GROMACS 2025.5; their format has been stable in versions since 2018.
+- The MDP files use the C-rescale barostat (introduced in GROMACS 2021), so `base_project.yaml` specifies `min_version: "2021"` and `run.sh` checks the major version at run time.
+- **Not actually run on any GROMACS version** (no GROMACS in the development environment; see VALIDATION.md).
 
-## 6. 运行验证状态
+## 6. Run-validation status
 
-| 项目 | 状态 |
+| Item | Status |
 |---|---|
-| 文件结构、依赖闭包、`.gro` 格式、校验和 | 已完成（静态） |
-| `gmx grompp` 预处理 | **未完成** |
-| 最小 `mdrun` 运行 | **未完成** |
+| File structure, dependency closure, `.gro` format, checksums | Done (static) |
+| `gmx grompp` preprocessing | **Not done** |
+| Minimal `mdrun` run | **Not done** |
