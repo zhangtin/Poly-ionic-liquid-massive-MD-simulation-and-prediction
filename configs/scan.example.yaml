@@ -1,0 +1,22 @@
+# Acceptance scan for mdflow V0.1: 4 temperatures x 3 pressures x 3 replicas = 36 jobs.
+# Relative paths are resolved against the directory of THIS file.
+# These conditions exercise the Script Builder; they are not validated
+# research conditions for any water model.
+project: water_scan_001
+
+base_project: "../examples/base_gromacs"
+
+scan:
+  temperature_K: [280, 300, 320, 340]
+  pressure_bar: [1, 10, 50]
+  replicas: 3
+
+simulation:
+  timestep_fs: 2.0
+  em_steps: 50000
+  nvt_ns: 1.0
+  npt_ns: 5.0
+  production_ns: 20.0
+
+output:
+  directory: "../generated_jobs"

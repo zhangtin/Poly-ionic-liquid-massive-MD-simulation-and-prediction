@@ -1,0 +1,31 @@
+# Base-project descriptor read by mdflow (PROJECT-CREATED).
+# Paths are relative to this file. Only the files reachable from `structure`,
+# `topology` (via #include) and `templates` are packaged into jobs.
+name: spce_water_1728
+description: >
+  1728 rigid SPC/E water molecules (OPLS-AA atom types) in a 3.724 nm cubic
+  periodic box. Development/test system for the mdflow Script Builder only.
+
+structure: conf.gro
+topology: topol.top
+
+templates:
+  em: mdp/em.mdp.j2
+  nvt: mdp/nvt.mdp.j2
+  npt: mdp/npt.mdp.j2
+  production: mdp/production.mdp.j2
+
+gromacs:
+  # C-rescale barostat (used in npt/production) requires GROMACS >= 2021.
+  min_version: "2021"
+  # Version whose share/top files were copied into this project.
+  developed_against: "2025.5"
+
+# Applicability limits enforced by `mdflow validate/plan/build`.
+# These are conservative, project-chosen bounds for using this rigid water
+# model as a *test system*; they are not a statement of physical validity.
+limits:
+  temperature_K: [273.15, 373.15]
+  pressure_bar: [1.0, 1000.0]
+  # Rigid water (SETTLE) is routinely run at 2 fs; larger steps are rejected.
+  max_timestep_fs: 2.0
