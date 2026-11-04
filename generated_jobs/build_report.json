@@ -1,0 +1,23 @@
+{
+  "tool": "mdflow",
+  "builder_version": "0.1.0",
+  "created_utc": "2026-11-04T02:42:06+00:00",
+  "host": {
+    "python": "3.13.18",
+    "platform": "Linux-6.18.44-fc-v233-x86_64-with-glibc2.39"
+  },
+  "project": "water_scan_001",
+  "config": {
+    "path": "/home/claude/md-automation/configs/scan.example.yaml",
+    "sha256": "51c23950d002665af604153669c257ac47029ecd6a1cf8194ec68af51773e7c8"
+  },
+  "base_project": {
+    "path": "/home/claude/md-automation/examples/base_gromacs",
+    "name": "spce_water_1728",
+    "sha256": "67956e715703cadfc0592973f87d909ea3adf4bb93992906eadc9f9ae961a12f",
+    "unchanged_after_build": true
+  },
+  "n_jobs": 36,
+  "validation_status": "STATIC_VALIDATED",
+  "gromacs_validation": "NOT_PERFORMED (V0.1 performs static validation only)"
+}

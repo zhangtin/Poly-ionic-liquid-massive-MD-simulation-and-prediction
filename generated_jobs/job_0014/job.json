@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "job_id": "c0106cbff8fa7711",
+  "sequence_id": "job_0014",
+  "experiment_id": "water_scan_001",
+  "builder_version": "0.1.0",
+  "parameters": {
+    "temperature_K": 300,
+    "pressure_bar": 10,
+    "replica": 2
+  },
+  "random_seed": 1785099685,
+  "seed_usage": {
+    "nvt.mdp": [
+      "gen-seed",
+      "ld-seed"
+    ],
+    "npt.mdp": [
+      "ld-seed"
+    ],
+    "production.mdp": [
+      "ld-seed"
+    ]
+  },
+  "protocol": {
+    "timestep_fs": 2,
+    "stages": [
+      {
+        "name": "em",
+        "mdp": "em.mdp",
+        "kind": "minimization",
+        "ensemble": null,
+        "steps": 50000,
+        "duration_ns": null
+      },
+      {
+        "name": "nvt",
+        "mdp": "nvt.mdp",
+        "kind": "dynamics",
+        "ensemble": "NVT",
+        "steps": 500000,
+        "duration_ns": 1
+      },
+      {
+        "name": "npt",
+        "mdp": "npt.mdp",
+        "kind": "dynamics",
+        "ensemble": "NPT",
+        "steps": 2500000,
+        "duration_ns": 5
+      },
+      {
+        "name": "production",
+        "mdp": "production.mdp",
+        "kind": "dynamics",
+        "ensemble": "NPT",
+        "steps": 10000000,
+        "duration_ns": 20
+      }
+    ]
+  },
+  "base_project": {
+    "name": "spce_water_1728",
+    "sha256": "67956e715703cadfc0592973f87d909ea3adf4bb93992906eadc9f9ae961a12f"
+  },
+  "gromacs": {
+    "min_version": "2021",
+    "developed_against": "2025.5"
+  },
+  "identity": {
+    "base_project_sha256": "67956e715703cadfc0592973f87d909ea3adf4bb93992906eadc9f9ae961a12f",
+    "builder_version": "0.1.0",
+    "parameters": {
+      "pressure_bar": "10",
+      "replica": 2,
+      "temperature_K": "300"
+    },
+    "protocol": {
+      "stages": [
+        {
+          "kind": "minimization",
+          "name": "em",
+          "steps": 50000
+        },
+        {
+          "kind": "dynamics",
+          "name": "nvt",
+          "steps": 500000
+        },
+        {
+          "kind": "dynamics",
+          "name": "npt",
+          "steps": 2500000
+        },
+        {
+          "kind": "dynamics",
+          "name": "production",
+          "steps": 10000000
+        }
+      ],
+      "timestep_fs": "2"
+    }
+  },
+  "files": {
+    "conf.gro": "7940382a54eecce283be46889507bbe9e57d351483155c7c8adf0ba24d8c816a",
+    "em.mdp": "c778f0f1157b1d2010eaab381b513b1cde20959953587abcaec83315677f6cd3",
+    "npt.mdp": "07de8d36f1f8d5187f70cdaa3deff17e8956463c3fc32c90e5730eb0d8a977fa",
+    "nvt.mdp": "3c320a00def7870ab87417b3433e8883727b23d5b703798427c1251b0809abab",
+    "oplsaa.ff/ffbonded.itp": "145e6924f52fae7e93108fa3d674f31a53aea10c80b13dd89abf0b011adfd4fa",
+    "oplsaa.ff/ffnonbonded.itp": "fdf072dac9900c039b58e21323ce621b2112dc86c46a4b5e49e1398ae5d3b9f0",
+    "oplsaa.ff/forcefield.itp": "6eb8f0d08684e1ac6f525bb323eae75ed197b2980ddfde975a24ca1a8c931d06",
+    "oplsaa.ff/spce.itp": "e733446e1c7bcf42e21ba2ff84cc57d8d603210218faa5203b3f078026d80682",
+    "production.mdp": "ac37c3370f56e967ecf4eca72457c0417eb11f106cd39c23f07b41fd02e3141e",
+    "run.sh": "3c84e9919c9a7d636f182d8021a6beec52a230ee48c34015cb43701f7b3b75bf",
+    "topol.top": "0c03e9bfd5816037e749dc2b18eccf75dede99d79b7f0f0c295a816b6f4cefcc"
+  },
+  "generation_status": "COMPLETE",
+  "validation_status": "STATIC_VALIDATED"
+}

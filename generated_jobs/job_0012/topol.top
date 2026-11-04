@@ -1,0 +1,14 @@
+; PROJECT-CREATED topology for the mdflow V0.1 base project.
+; System: 1728 SPC/E water molecules (OPLS-AA atom types, rigid via SETTLE).
+; The force-field files under oplsaa.ff/ are unmodified copies from
+; GROMACS 2025.5 share/top/oplsaa.ff (LGPL-2.1, see LICENSES/).
+
+#include "oplsaa.ff/forcefield.itp"
+#include "oplsaa.ff/spce.itp"
+
+[ system ]
+SPC/E water box (1728 molecules)
+
+[ molecules ]
+; Compound   #mols
+SOL          1728

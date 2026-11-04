@@ -1,0 +1,38 @@
+; NPT equilibration -- mdflow base template (PROJECT-CREATED)
+; Template variables: nsteps, dt_ps, temperature_K, pressure_bar, random_seed
+integrator              = md
+dt                      = 0.002
+nsteps                  = 2500000
+
+; continue from the NVT checkpoint (coordinates + velocities)
+continuation            = yes
+gen-vel                 = no
+; seed for the stochastic V-rescale thermostat and C-rescale barostat
+ld-seed                 = 1357433629
+
+constraints             = h-bonds
+constraint-algorithm    = lincs
+
+cutoff-scheme           = Verlet
+nstlist                 = 10
+pbc                     = xyz
+coulombtype             = PME
+rcoulomb                = 1.0
+vdwtype                 = Cut-off
+rvdw                    = 1.0
+DispCorr                = EnerPres
+
+tcoupl                  = V-rescale
+tc-grps                 = System
+tau-t                   = 0.1
+ref-t                   = 340
+
+pcoupl                  = C-rescale
+pcoupltype              = isotropic
+tau-p                   = 2.0
+ref-p                   = 1
+compressibility         = 4.5e-5
+
+nstxout-compressed      = 5000
+nstenergy               = 500
+nstlog                  = 500
